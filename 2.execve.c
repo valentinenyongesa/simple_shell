@@ -10,7 +10,7 @@
 
 int main(void)
 {
-	char cmd[] = "bin/ls";
+	char cmd[] = "/bin/ls";
 	char *argv[] = {"ls", "-l", NULL};
 	char *env[] = {NULL};
 
