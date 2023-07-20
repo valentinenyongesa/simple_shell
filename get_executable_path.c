@@ -17,7 +17,7 @@ char *find_executable_path(const char *exec, char **env)
 
 	for (i = 0; env[i] != NULL; i++)
 	{
-		if (strncmp(env[i], "PATH=", 5) == 0)
+		if (_strncmp(env[i], "PATH=", 5) == 0)
 		{
 			path_env = env[i] + 5;
 			break;
@@ -31,7 +31,7 @@ char *find_executable_path(const char *exec, char **env)
 	dir = strtok(path, ":");
 	while (dir != NULL)
 	{
-		len = strlen(dir) + 1 + strlen(exec) + 1;
+		len = _strlen(dir) + 1 + _strlen(exec) + 1;
 		full_path = (char *)malloc(len);
 
 		if (full_path == NULL)

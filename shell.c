@@ -44,7 +44,7 @@ int shell_prompt(char **env)
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 		tokens = tokenize(line, ' ');
-		if (strcmp(tokens[0], "cd") == 0)/*token start */
+		if (_strcmp(tokens[0], "cd") == 0)/*token start */
 		{
 			if (tokens[1] != NULL)
 			{
@@ -52,13 +52,12 @@ int shell_prompt(char **env)
 					perror("cd");
 			}
 			/*continue;*/
-		} else if (strcmp(tokens[0], "exit") == 0)/*handling the exit builtin*/
+		} else if (_strcmp(tokens[0], "exit") == 0)/*handling the exit builtin*/
 		{
 			free(line);
 			free(tokens);
 			return (0);
 		}
-		/*exec_path = find_executable_path(tokens[0], envp);*/
 		exec_path = find_executable_path(tokens[0], envp);
 		exec_path = exec_path == NULL ? function_path(tokens[0]) : exec_path;
 		if (exec_path != NULL)
