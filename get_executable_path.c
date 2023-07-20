@@ -13,9 +13,9 @@
 char *find_executable_path(const char *exec, char **env)
 {
 	char *path_env = NULL, *path = NULL, *dir = NULL, *full_path = NULL;
-	size_t len;
+	size_t len, i;
 
-	for (int i = 0; env[i] != NULL; i++)
+	for (i = 0; env[i] != NULL; i++)
 	{
 		if (strncmp(env[i], "PATH=", 5) == 0)
 		{

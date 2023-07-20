@@ -92,6 +92,8 @@ int shell_prompt(char **env)
  */
 int main(int ac, char **av, char **env)
 {
+	(void)av;
+	(void)ac;
 	shell_prompt(env);
 	return (0);
 }
