@@ -12,7 +12,7 @@
 char **tokenize(char *string, char delim)
 {
 	size_t i = 0, j = 0;
-	char *temp = malloc(sizeof(char) * (strlen(string) + 1 + 1));
+	char *temp = malloc(sizeof(char) * (_strlen(string) + 1 + 1));
 	char **tokens = malloc(sizeof(char *) * 100);
 	int token_pos = 0;
 
@@ -37,13 +37,13 @@ char **tokenize(char *string, char delim)
 		temp[j] = '\0';
 		if (j > 0)
 		{
-			tokens[token_pos] = malloc(sizeof(char) * (strlen(temp) + 1));
+			tokens[token_pos] = malloc(sizeof(char) * (_strlen(temp) + 1));
 			if (tokens[token_pos] == NULL)
 			{
 				perror("Memory allocation error");
 				exit(EXIT_FAILURE);
 			}
-			strcpy(tokens[token_pos], temp);
+			_strcpy(tokens[token_pos], temp);
 			token_pos++;
 			j = 0;
 		}
