@@ -26,9 +26,9 @@ char *function_path(char *path)
 }
 
 /**
- *free_tokens- frees memory allocated to tokens
- *@tokens: the tokens array to be freed
- */
+ * free_tokens- frees memory allocated to tokens
+ * @tokens: the tokens array to be freed
+*/
 void free_tokens(char **tokens)
 {
 	int i;
@@ -37,38 +37,36 @@ void free_tokens(char **tokens)
 
 	for (i = 0; tokens[i] != NULL; i++)
 		free(tokens[i]);
-
+	
 	free(tokens);
 }
 
 
 /**
 * shell_prompt- A simple shell prompt
-* @env: The environmental variables
+* @env: the environmental variables
 * Return: 0 on success
 */
 int shell_prompt(char **env)
 {
-	char *line = NULL, *exec_path;
+	char *line = NULL, *exec_path = NULL;
 	size_t len = 0;
 	ssize_t nread;
 	char **tokens, **envp = env;
 	pid_t pid;
+	int EXEC_SUCCESS;
 
-	while (1)
+	/*write(STDOUT_FILENO, "$ ", 2);*/
+	fflush(stdout);
+	while ((nread = getline(&line, &len, stdin)) != -1)
 	{
-		/*ADDED */
-		/*write(STDOUT_FILENO, "$ ", 2);*/
-		fflush(stdout);/*END OF ADD*/
-		nread = getline(&line, &len, stdin);
-		if (nread == -1)
-		{
-			free(line);
-			write(STDOUT_FILENO, "\n ", 2);
-			return (0);
-		}
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
+		if (nread == 1)
+		{
+			free(line);
+			continue;
+		}
 		tokens = tokenize(line, ' ');
 		if (_strcmp(tokens[0], "cd") == 0)/*token start */
 		{
@@ -84,6 +82,12 @@ int shell_prompt(char **env)
 			free_tokens(tokens);
 			return (0);
 		}
+		else if (_strcmp(tokens[0], "env") == 0)
+		{
+			_env(envp);
+			free_tokens(tokens);
+			continue;
+		}
 		exec_path = find_executable_path(tokens[0], envp);
 		exec_path = exec_path == NULL ? function_path(tokens[0]) : exec_path;
 		if (exec_path != NULL)
@@ -98,17 +102,30 @@ int shell_prompt(char **env)
 				perror("execve");
 				exit(EXIT_FAILURE);
 			} else
-				wait(NULL);/**waiting for child process to complete*/
-			free(exec_path);
+			{
+				EXEC_SUCCESS = 0;
+				wait(&EXEC_SUCCESS);/**waiting for child process to complete*/
+			}
+			free(exec_path);	
+			exec_path = NULL;
 		} else
 			printf("command '%s' not found\n", tokens[0]);
 		free_tokens(tokens);
+		/*write(STDOUT_FILENO, "$ ", 2);*/
+		fflush(stdout);
 	}
-	free(line);
+	if (nread == -1)
+	{
+		free(line);
+		write(STDOUT_FILENO, "\n", 1);
+		return (0);
+	}
+	if (line != NULL)
+		free(line);
+	if (exec_path != NULL)
+		free(exec_path);
 	return (0);
 }
-
-
 /**
  * main- shell entry point
  * @ac: argument counter

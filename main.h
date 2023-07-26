@@ -11,4 +11,6 @@ int _strcmp(char *s1, char *s2);
 size_t _strlen(const char *str);
 int _strncmp(const char *str1, const char *str2, size_t n);
 char *_strcpy(char *dest, char *src);
+void free_tokens(char **tokens);
+void _env(char **env);
 #endif
