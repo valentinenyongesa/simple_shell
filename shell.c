@@ -55,8 +55,6 @@ int shell_prompt(char **env)
 	char **tokens, **envp = env;
 	pid_t pid;
 
-	/*write(STDOUT_FILENO, "$ ", 2);
-	fflush(stdout);*/
 	while (1)
 	{
 		/*ADDED */
@@ -105,8 +103,6 @@ int shell_prompt(char **env)
 		} else
 			printf("command '%s' not found\n", tokens[0]);
 		free_tokens(tokens);
-		/*write(STDOUT_FILENO, "$ ", 2);*/
-		fflush(stdout);
 	}
 	free(line);
 	return (0);
