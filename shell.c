@@ -58,7 +58,7 @@ int shell_prompt(char **env)
 	while (1)
 	{
 		/*ADDED */
-		write(STDOUT_FILENO, "$ ", 2);
+		/*write(STDOUT_FILENO, "$ ", 2);*/
 		fflush(stdout);/*END OF ADD*/
 		nread = getline(&line, &len, stdin);
 		if (nread == -1)
