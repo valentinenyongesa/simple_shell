@@ -37,7 +37,7 @@ int shell_prompt(char **env)
 	char **tokens, **envp = env;
 	pid_t pid;
 
-	write(STDOUT_FILENO, "hsh$:", 5);
+	/*write(STDOUT_FILENO, "$ ", 2);*/
 	fflush(stdout);
 	while ((nread = getline(&line, &len, stdin)) != -1)
 	{
@@ -51,7 +51,8 @@ int shell_prompt(char **env)
 				if (chdir(tokens[1]) != 0)
 					perror("cd");
 			}
-			/*continue;*/
+			free(tokens);/**mem leaks*/
+			continue;
 		} else if (_strcmp(tokens[0], "exit") == 0)/*handling the exit builtin*/
 		{
 			free(line);
@@ -75,9 +76,9 @@ int shell_prompt(char **env)
 				wait(NULL);/**waiting for child process to complete*/
 			free(exec_path);
 		} else
-			printf("%s: commnad not found\n", tokens[0]);
+			printf("command '%s' not found\n", tokens[0]);
 		free(tokens);
-		write(STDOUT_FILENO, "hsh$:", 5);
+		/*write(STDOUT_FILENO, "$ ", 2);*/
 		fflush(stdout);
 	}
 	free(line);
