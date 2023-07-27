@@ -8,14 +8,11 @@
  */
 int custom_exit(char **tokens)
 {
-	int exit_code;
+	int exit_code = 0;
 
 	if (tokens[1] != NULL)
-	{
 		exit_code = atoi(tokens[1]);
-		free_tokens(tokens);
-		return (exit_code);
-	}
+
 	free_tokens(tokens);
-	return (0);
+	return (exit_code);
 }

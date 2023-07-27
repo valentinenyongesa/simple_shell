@@ -54,6 +54,7 @@ int shell_prompt(char **env)
 	char **tokens, **envp = env;
 	pid_t pid;
 	int exit_code;
+	const char *home_dir;
 
 	/*write(STDOUT_FILENO, "$ ", 2);*/
 	fflush(stdout);
@@ -69,11 +70,28 @@ int shell_prompt(char **env)
 				if (chdir(tokens[1]) != 0)
 					perror("cd");
 			}
+			else
+			{
+				home_dir = getenv("HOME");
+				if (home_dir == NULL)
+					write(STDOUT_FILENO, "Cd: can't determine the home directory", 38);
+				else
+				{
+					if (chdir(home_dir) != 0)
+					{
+						perror("cd");
+					}
+				}
+			}
 			free_tokens(tokens);
 			continue;
 		} else if (_strcmp(tokens[0], "exit") == 0)/*handling the exit builtin*/
 		{
-			exit_code = custom_exit(tokens);
+			if (tokens[1] != NULL)
+				exit_code = atoi(tokens[1]);
+			else
+				exit_code = 0;
+			free_tokens(tokens);
 			free(line);
 			return (exit_code);
 		}
