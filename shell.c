@@ -53,6 +53,7 @@ int shell_prompt(char **env)
 	ssize_t nread;
 	char **tokens, **envp = env;
 	pid_t pid;
+	int exit_code;
 
 	/*write(STDOUT_FILENO, "$ ", 2);*/
 	fflush(stdout);
@@ -72,9 +73,9 @@ int shell_prompt(char **env)
 			continue;
 		} else if (_strcmp(tokens[0], "exit") == 0)/*handling the exit builtin*/
 		{
+			exit_code = custom_exit(tokens);
 			free(line);
-			free_tokens(tokens);
-			return (0);
+			return (exit_code);
 		}
 		else if (_strcmp(tokens[0], "env") == 0)
 		{
@@ -90,7 +91,7 @@ int shell_prompt(char **env)
 			if (pid == -1)
 				perror("fork");
 			else if (pid == 0)
-			{
+			{/*TODI: Add arguments for commands*/
 				tokens[0] = exec_path;/*TRYING OUT SMTHG*/
 				execve(exec_path, tokens, envp);
 				perror("execve");
