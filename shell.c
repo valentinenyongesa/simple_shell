@@ -60,15 +60,6 @@ int shell_prompt(char **env)
 	{
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
-		if (nread == 1)
-		{
-			if (line != NULL)
-			{
-				free(line);
-				line = NULL;
-			}
-			continue;
-		}
 		tokens = tokenize(line, ' ');
 		if (_strcmp(tokens[0], "cd") == 0)/*token start */
 		{
@@ -77,7 +68,7 @@ int shell_prompt(char **env)
 				if (chdir(tokens[1]) != 0)
 					perror("cd");
 			}
-			free_tokens(tokens);
+			free_tokens(tokens);/**mem leaks*/
 			continue;
 		} else if (_strcmp(tokens[0], "exit") == 0)/*handling the exit builtin*/
 		{
@@ -105,24 +96,14 @@ int shell_prompt(char **env)
 				perror("execve");
 				exit(EXIT_FAILURE);
 			} else
-			{
 				wait(NULL);/**waiting for child process to complete*/
-				free(exec_path);
-			}
+			free(exec_path);
 		} else
 			printf("command '%s' not found\n", tokens[0]);
 		free_tokens(tokens);
 		/*write(STDOUT_FILENO, "$ ", 2);*/
 		fflush(stdout);
 	}
-	if (nread == -1)
-	{
-		free(line);
-		write(STDOUT_FILENO, "\n", 1);
-		return (0);
-	}
-	/*free(line);*/
-	if (line != NULL)
 	free(line);
 	return (0);
 }
