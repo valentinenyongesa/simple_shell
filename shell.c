@@ -41,7 +41,6 @@ void free_tokens(char **tokens)
 	free(tokens);
 }
 
-
 /**
 * shell_prompt- A simple shell prompt
 * @env: the environmental variables
@@ -49,12 +48,11 @@ void free_tokens(char **tokens)
 */
 int shell_prompt(char **env)
 {
-	char *line = NULL, *exec_path = NULL;
+	char *line = NULL, *exec_path;
 	size_t len = 0;
 	ssize_t nread;
 	char **tokens, **envp = env;
 	pid_t pid;
-	int EXEC_SUCCESS;
 
 	/*write(STDOUT_FILENO, "$ ", 2);*/
 	fflush(stdout);
@@ -64,7 +62,11 @@ int shell_prompt(char **env)
 			line[nread - 1] = '\0';
 		if (nread == 1)
 		{
-			free(line);
+			if (line != NULL)
+			{
+				free(line);
+				line = NULL;
+			}
 			continue;
 		}
 		tokens = tokenize(line, ' ');
@@ -75,6 +77,7 @@ int shell_prompt(char **env)
 				if (chdir(tokens[1]) != 0)
 					perror("cd");
 			}
+			free_tokens(tokens);
 			continue;
 		} else if (_strcmp(tokens[0], "exit") == 0)/*handling the exit builtin*/
 		{
@@ -103,11 +106,9 @@ int shell_prompt(char **env)
 				exit(EXIT_FAILURE);
 			} else
 			{
-				EXEC_SUCCESS = 0;
-				wait(&EXEC_SUCCESS);/**waiting for child process to complete*/
+				wait(NULL);/**waiting for child process to complete*/
+				free(exec_path);
 			}
-			free(exec_path);	
-			exec_path = NULL;
 		} else
 			printf("command '%s' not found\n", tokens[0]);
 		free_tokens(tokens);
@@ -120,10 +121,9 @@ int shell_prompt(char **env)
 		write(STDOUT_FILENO, "\n", 1);
 		return (0);
 	}
+	/*free(line);*/
 	if (line != NULL)
-		free(line);
-	if (exec_path != NULL)
-		free(exec_path);
+	free(line);
 	return (0);
 }
 /**
