@@ -134,8 +134,10 @@ int shell_prompt(char **env)
  */
 int main(int ac, char **av, char **env)
 {
+	int return_value = 0;
+
 	(void)av;
 	(void)ac;
-	shell_prompt(env);
-	return (0);
+	return_value = shell_prompt(env);
+	return (return_value);
 }
