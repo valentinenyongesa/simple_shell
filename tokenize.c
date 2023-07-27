@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "main.h"
+#include <ctype.h>
 
 /**
  * tokenize- returns tokens of a string based on a delimiter
@@ -12,7 +13,7 @@
 char **tokenize(char *string, char delim)
 {
 	size_t i = 0, j = 0;
-	char *temp = malloc(sizeof(char) * (_strlen(string) + 1 + 1));
+	char *temp = malloc(sizeof(char) * (_strlen(string) + 1));
 	char **tokens = malloc(sizeof(char *) * 100);
 	int token_pos = 0;
 
@@ -30,9 +31,7 @@ char **tokenize(char *string, char delim)
 		temp[j] = string[i];
 		while (string[i] != delim && string[i] != '\0')
 		{
-			temp[j] = string[i];
-			i++;
-			j++;
+			temp[j++] = string[i++];
 		}
 		temp[j] = '\0';
 		if (j > 0)

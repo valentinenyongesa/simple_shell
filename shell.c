@@ -36,8 +36,10 @@ void free_tokens(char **tokens)
 		return;
 
 	for (i = 0; tokens[i] != NULL; i++)
+	{
 		free(tokens[i]);
-	
+		tokens[i] = NULL;
+	}
 	free(tokens);
 }
 
@@ -63,6 +65,11 @@ int shell_prompt(char **env)
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 		tokens = tokenize(line, ' ');
+		if (tokens[0] == NULL)
+		{
+			free_tokens(tokens);
+			continue;;
+		}
 		if (_strcmp(tokens[0], "cd") == 0)/*token start */
 		{
 			if (tokens[1] != NULL)
@@ -119,7 +126,7 @@ int shell_prompt(char **env)
 			free(exec_path);
 		} else
 			printf("command '%s' not found\n", tokens[0]);
-		free(tokens);
+		free_tokens(tokens);/*TODO: This line brings up mem errors*/
 		/*write(STDOUT_FILENO, "$ ", 2);*/
 		fflush(stdout);
 	}
