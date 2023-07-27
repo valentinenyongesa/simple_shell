@@ -68,7 +68,7 @@ int shell_prompt(char **env)
 				if (chdir(tokens[1]) != 0)
 					perror("cd");
 			}
-			free_tokens(tokens);/**mem leaks*/
+			free_tokens(tokens);
 			continue;
 		} else if (_strcmp(tokens[0], "exit") == 0)/*handling the exit builtin*/
 		{
@@ -100,7 +100,7 @@ int shell_prompt(char **env)
 			free(exec_path);
 		} else
 			printf("command '%s' not found\n", tokens[0]);
-		free_tokens(tokens);
+		free(tokens);
 		/*write(STDOUT_FILENO, "$ ", 2);*/
 		fflush(stdout);
 	}
