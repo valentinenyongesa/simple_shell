@@ -10,7 +10,6 @@ int main (int ac, char **av, char **env)
     int interactive;
 
     (void)ac;
-    (void)av;
     interactive = isatty(STDIN_FILENO);
     while (1)
     {
@@ -45,7 +44,7 @@ int main (int ac, char **av, char **env)
             _env(env);
         else 
         {/*HANDLING EXTERNAL COMMANDS*/
-            exec_command(tokens, env);
+            exec_command(tokens, env, av);
         }
         free_tokens(tokens);
     }

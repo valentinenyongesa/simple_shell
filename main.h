@@ -15,7 +15,7 @@ char *_strcpy(char *dest, char *src);
 void free_tokens(char **tokens);
 void _env(char **env);
 int custom_exit(void);
-int exec_command(char **tokens, char **env);
+int exec_command(char **tokens, char **env, char **av);
 char *function_path(char *path);
 void _cd(char **args);
 #endif

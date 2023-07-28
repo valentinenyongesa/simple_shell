@@ -21,7 +21,7 @@ char *function_path(char *path)
 	return (NULL);
 }
 
-int exec_command(char **tokens, char **env)
+int exec_command(char **tokens, char **env, char **av)
 {
 	pid_t pid;
     char *exec_path;
@@ -59,8 +59,8 @@ int exec_command(char **tokens, char **env)
     }
     else
     {
-        printf("Command '%s' not found\n", tokens[0]);
-        return (0);
+        fprintf(stderr, ".%s: 1: %s: not found\n", av[0], tokens[0]);
+        return (127);
     }
     /*ADDED FOR FREE*/free_tokens(tokens);
     return (-1);
