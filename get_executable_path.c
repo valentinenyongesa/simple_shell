@@ -28,6 +28,11 @@ char *find_executable_path(const char *exec, char **env)
 		return (NULL);
 
 	path = strdup(path_env);
+	if (path == NULL)/*ADDED TTHIS BLOCK*/
+	{
+		perror("Memory allocation error");
+		return (NULL);
+	}
 	dir = strtok(path, ":");
 	while (dir != NULL)
 	{
@@ -53,3 +58,4 @@ char *find_executable_path(const char *exec, char **env)
 	free(path);
 	return (NULL);
 }
+

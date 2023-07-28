@@ -6,13 +6,7 @@
  * Return: 1 if shell should exit 0 otherwise
  *
  */
-int custom_exit(char **tokens)
+int custom_exit()
 {
-	int exit_code = 0;
-
-	if (tokens[1] != NULL)
-		exit_code = atoi(tokens[1]);
-
-	free_tokens(tokens);
-	return (exit_code);
+	exit(0);
 }
