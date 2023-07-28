@@ -6,7 +6,7 @@
  * Return: 1 if shell should exit 0 otherwise
  *
  */
-int custom_exit()
+int custom_exit(void)
 {
 	exit(0);
 }

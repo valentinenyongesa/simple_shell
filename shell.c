@@ -6,9 +6,11 @@ int main (int ac, char **av, char **env)
 {
     char *line = NULL, **tokens;
     size_t len;
-    size_t nread;
+    int nread;
     int interactive;
 
+    (void)ac;
+    (void)av;
     interactive = isatty(STDIN_FILENO);
     while (1)
     {

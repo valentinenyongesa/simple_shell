@@ -14,7 +14,7 @@ int _strncmp(const char *str1, const char *str2, size_t n);
 char *_strcpy(char *dest, char *src);
 void free_tokens(char **tokens);
 void _env(char **env);
-int custom_exit();
+int custom_exit(void);
 int exec_command(char **tokens, char **env);
 char *function_path(char *path);
 void _cd(char **args);
